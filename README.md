@@ -13,7 +13,7 @@ The frontend is a static `index.html` with modern UI and all logic in vanilla JS
 
 - `index.html` – main SPA (UI, itinerary logic, Google Maps embed, calls to the Vercel backend)
 - `api/places.js` – Vercel Serverless Function that proxies Google Places Nearby Search
-- `server.mjs` – optional local Node/Express server (not needed when deploying on Vercel)
+- `backend/` – optional local Node/Express server for local development (contains `server.mjs` and `package.json`; not needed when deploying on Vercel)
 
 ## Running locally (static only)
 
@@ -55,8 +55,9 @@ The serverless function forwards the request to the Google Places Nearby Search 
 If you prefer to run a backend locally instead of Vercel Functions:
 
 ```bash
-# install dependencies
-npm install
+
+# install dependencies (run inside the `backend` folder)
+cd backend && npm install
 
 # create .env with your key
 echo GOOGLE_MAPS_API_KEY=YOUR_KEY_HERE > .env
@@ -65,7 +66,7 @@ echo GOOGLE_MAPS_API_KEY=YOUR_KEY_HERE > .env
 npm start
 ```
 
-Then point `BACKEND_BASE` in `index.html` to `http://127.0.0.1:4000/api` (instead of the `/api` path) and adjust the fetch URL accordingly. The server implementation in `server.mjs` mirrors the Vercel function behaviour.
+Then point `BACKEND_BASE` in `index.html` to `http://127.0.0.1:4000/api` (instead of the `/api` path) and adjust the fetch URL accordingly. The server implementation in `backend/server.mjs` mirrors the Vercel function behaviour.
 
 ## Notes
 
