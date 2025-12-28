@@ -7,14 +7,13 @@ Single‑page web app to build a short food outing itinerary (Upscale vs Cheap) 
 - Travel style (Cab vs Local)
 - Cuisine filters
 
-The frontend is a static `index.html` with modern UI and all logic in vanilla JS. For dynamic places search it can call a backend (Netlify Function) that talks to the Google Places Nearby Search API.
+The frontend is a static `index.html` with modern UI and all logic in vanilla JS. For dynamic places search it can call a backend (Vercel Serverless Function) that proxies the Google Places Nearby Search API.
 
 ## Project structure
 
-- `index.html` – main SPA (UI, itinerary logic, Google Maps embed, Netlify backend calls)
-- `netlify/functions/places.js` – Netlify Function that proxies Google Places Nearby Search
-- `netlify.toml` – Netlify config pointing to the functions directory
-- `backend/` – optional local Node/Express server (not needed when using Netlify Functions)
+- `index.html` – main SPA (UI, itinerary logic, Google Maps embed, calls to the Vercel backend)
+- `api/places.js` – Vercel Serverless Function that proxies Google Places Nearby Search
+- `server.mjs` – optional local Node/Express server (not needed when deploying on Vercel)
 
 ## Running locally (static only)
 
@@ -30,42 +29,43 @@ npx serve .
 
 In this mode the app uses a curated list of example places and still respects your home address for travel time estimation (derived from distance).
 
-## Dynamic places via Netlify Functions
+## Dynamic places via Vercel Serverless Functions
 
 To use live nearby restaurants around the home address:
 
-1. **Push this folder to GitHub** (root containing `index.html`, `netlify.toml`, `netlify/functions/places.js`).  
-2. **Create a site on Netlify** → “Import from Git” → select the repo.
-3. In the Netlify setup:
+1. **Push this folder to GitHub** (root containing `index.html` and `api/places.js`).
+2. **Create a new project on [Vercel](https://vercel.com)** → “Import Git Repository” → select your repo.
+3. In the Vercel setup:
    - **Build command**: leave empty (static site).
-   - **Publish directory**: `.`
-4. In **Site settings → Environment variables**, add:
+   - **Output directory**: `.` (the project root).
+4. In **Project Settings → Environment Variables**, add:
 
    - `GOOGLE_MAPS_API_KEY` – your Google Maps / Places API key (server key).
 
-5. Redeploy the site.
+5. Deploy the project.
 
 At runtime the frontend calls:
 
-- `/.netlify/functions/places?lat=..&lng=..&radiusKm=..&maxResults=..`
+- `/api/places?lat=..&lng=..&radiusKm=..&maxResults=..`
 
-The function forwards the request to the Google Places Nearby Search API and returns normalized place data. When the function returns results, they are used as the primary pool; otherwise the app falls back to the curated static places so the UI never completely breaks.
+The serverless function forwards the request to the Google Places Nearby Search API and returns normalized place data. When the function returns results, they are used as the primary pool; otherwise the app falls back to the curated static places so the UI never completely breaks.
 
 ## Optional: local Node backend
 
-If you prefer to run a backend locally instead of Netlify Functions:
+If you prefer to run a backend locally instead of Vercel Functions:
 
 ```bash
-cd backend
+# install dependencies
 npm install
 
 # create .env with your key
 echo GOOGLE_MAPS_API_KEY=YOUR_KEY_HERE > .env
 
+# start the express server
 npm start
 ```
 
-Then point `BACKEND_BASE` in `index.html` to `http://127.0.0.1:4000/api` (instead of the Netlify path) and adjust the fetch URL accordingly. The server implementation in `backend/server.mjs` mirrors the Netlify function behaviour.
+Then point `BACKEND_BASE` in `index.html` to `http://127.0.0.1:4000/api` (instead of the `/api` path) and adjust the fetch URL accordingly. The server implementation in `server.mjs` mirrors the Vercel function behaviour.
 
 ## Notes
 
