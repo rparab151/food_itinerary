@@ -55,18 +55,16 @@ app.get("/api/places", async (req, res) => {
       return res.status(502).json({ error: "Places API status error", status: data.status, details: data.error_message });
     }
 
-    const results = (data.results || []).slice(0, maxResults).map(r => ({
+    const results = (data.results || []).slice(0, maxResults).map((r) => ({
       id: r.place_id,
       name: r.name,
       area: r.vicinity || "",
-      city: "", // not provided directly; frontend can treat as "Nearby"
-      coords: r.geometry && r.geometry.location
-        ? { lat: r.geometry.location.lat, lng: r.geometry.location.lng }
-        : null,
+      city: "",
+      coords: r.geometry && r.geometry.location ? { lat: r.geometry.location.lat, lng: r.geometry.location.lng } : null,
       rating: r.rating,
       userRatingsTotal: r.user_ratings_total,
       priceLevel: r.price_level,
-      types: r.types || []
+      types: r.types || [],
     }));
 
     res.json({ places: results });
@@ -79,5 +77,3 @@ app.get("/api/places", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`[backend] Server listening on http://localhost:${PORT}`);
 });
-
-
