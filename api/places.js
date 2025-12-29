@@ -11,75 +11,103 @@
 // configured in your Vercel project. See README for details.
 
 export default async function handler(req, res) {
-  // Enable CORS for all origins so the static frontend can call this endpoint.
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
   const GOOGLE_KEY = process.env.GOOGLE_MAPS_API_KEY;
   if (!GOOGLE_KEY) {
-    return res.status(500).json({ error: "Missing GOOGLE_MAPS_API_KEY on server" });
+    return res.status(500).json({ error: "Missing GOOGLE_MAPS_API_KEY" });
   }
+
   try {
-    const { lat, lng, radiusKm = "5", maxResults = "12" } = req.query || {};
+    const {
+      lat,
+      lng,
+      radiusKm = "5",
+      maxResults = "12",
+      cuisines = ""
+    } = req.query || {};
+
     const latitude = parseFloat(lat);
     const longitude = parseFloat(lng);
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-      return res
-        .status(400)
-        .json({ error: "lat and lng query params are required" });
+      return res.status(400).json({ error: "lat/lng required" });
     }
-    // Clamp radius between 1 and 20 km.
-    const radius = Math.min(Math.max(parseFloat(radiusKm) || 5, 1), 20);
-    // Clamp max results between 1 and 20.
-    const max = Math.min(parseInt(maxResults || "12", 10), 20);
-    // Convert to meters for the Places API.
-    const radiusMeters = Math.round(radius * 1000);
 
-    const url = new URL(
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-    );
-    url.searchParams.set("location", `${latitude},${longitude}`);
-    url.searchParams.set("radius", String(radiusMeters));
-    url.searchParams.set("type", "restaurant");
-    url.searchParams.set("key", GOOGLE_KEY);
+    const radiusMeters = Math.min(Math.max(Number(radiusKm) || 5, 1), 20) * 1000;
+    const max = Math.min(Math.max(parseInt(maxResults, 10) || 12, 1), 20);
 
-    const response = await fetch(url.toString());
-    if (!response.ok) {
-      const text = await response.text();
-      return res.status(502).json({ error: "Places API error", details: text });
+    const CUISINE_KEYWORDS = {
+      "South Indian": "south indian OR udupi OR dosa OR idli OR vada",
+      "Indian": "north indian OR punjabi OR thali OR biryani",
+      "Chinese": "chinese OR indo-chinese OR hakka OR momos",
+      "Pizza": "pizza OR pizzeria",
+      "Street food": "street food OR chaat OR vada pav OR pav bhaji",
+      "Cafe": "cafe OR coffee OR brunch",
+      "Bakery / Desserts": "bakery OR desserts OR cake OR ice cream",
+      "Seafood": "seafood OR fish thali",
+      "Fast food": "burger OR fries OR sandwich",
+      "Vegetarian": "pure veg OR vegetarian",
+      "Bar / Pub": "bar OR pub OR brewery",
+      "Restaurant": "restaurant"
+    };
+
+    const selected = cuisines
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean)
+      .slice(0, 3);
+
+    const keywords =
+      selected.length > 0
+        ? selected.map(c => CUISINE_KEYWORDS[c] || c)
+        : ["restaurant"];
+
+    async function fetchPlaces(keyword) {
+      const url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json");
+      url.searchParams.set("location", `${latitude},${longitude}`);
+      url.searchParams.set("radius", String(radiusMeters));
+      url.searchParams.set("type", "restaurant");
+      url.searchParams.set("keyword", keyword);
+      url.searchParams.set("key", GOOGLE_KEY);
+
+      const r = await fetch(url.toString());
+      const j = await r.json();
+      if (j.status !== "OK" && j.status !== "ZERO_RESULTS") return [];
+      return j.results || [];
     }
-    const data = await response.json();
-    if (data.status !== "OK" && data.status !== "ZERO_RESULTS") {
-      return res
-        .status(502)
-        .json({
-          error: "Places API status error",
-          status: data.status,
-          details: data.error_message,
-        });
+
+    const batches = await Promise.all(keywords.map(fetchPlaces));
+
+    const map = new Map();
+    for (const batch of batches) {
+      for (const r of batch) {
+        if (r.place_id && !map.has(r.place_id)) {
+          map.set(r.place_id, r);
+        }
+      }
     }
-    const results = (data.results || [])
+
+    const places = Array.from(map.values())
       .slice(0, max)
-      .map((r) => ({
+      .map(r => ({
         id: r.place_id,
         name: r.name,
         area: r.vicinity || "",
-        city: "", // not provided directly; frontend can treat as "Nearby"
-        coords:
-          r.geometry && r.geometry.location
-            ? { lat: r.geometry.location.lat, lng: r.geometry.location.lng }
-            : null,
+        city: "Nearby",
+        coords: r.geometry?.location
+          ? { lat: r.geometry.location.lat, lng: r.geometry.location.lng }
+          : null,
         rating: r.rating,
         userRatingsTotal: r.user_ratings_total,
         priceLevel: r.price_level,
-        types: r.types || [],
+        types: r.types || []
       }));
-    return res.status(200).json({ places: results });
-  } catch (err) {
-    console.error("[api/places] handler failed", err);
-    return res.status(500).json({ error: "Internal server error" });
+
+    return res.status(200).json({ places });
+
+  } catch (e) {
+    console.error("places api error", e);
+    return res.status(500).json({ error: "Server error" });
   }
 }
