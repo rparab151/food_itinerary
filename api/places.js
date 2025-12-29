@@ -1,18 +1,21 @@
-// Vercel serverless function to fetch nearby places from Google Places API.
+// Vercel serverless function to fetch nearby places from Google Places API
+// with grouped cuisine expansion for Indian cuisines.
 //
-// This function proxies requests from the frontend to the Google Places Nearby
-// Search API. It accepts query parameters:
-//   - lat: latitude of the home/base location (required)
-//   - lng: longitude of the home/base location (required)
-//   - radiusKm: radius in kilometers to search within (optional, default 5, clamped between 1–20)
-//   - maxResults: maximum number of places to return (optional, default 12, max 20)
+// Env required:
+//   GOOGLE_MAPS_API_KEY (server key)
 //
-// The function expects a `GOOGLE_MAPS_API_KEY` environment variable to be
-// configured in your Vercel project. See README for details.
+// Query params:
+//   lat, lng           (required)
+//   radiusKm           (optional, default 5, 1–20)
+//   maxResults         (optional, default 12, max 20)
+//   cuisines           (optional, comma-separated)
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
 
   const GOOGLE_KEY = process.env.GOOGLE_MAPS_API_KEY;
   if (!GOOGLE_KEY) {
@@ -25,89 +28,129 @@ export default async function handler(req, res) {
       lng,
       radiusKm = "5",
       maxResults = "12",
-      cuisines = ""
+      cuisines = "",
     } = req.query || {};
 
     const latitude = parseFloat(lat);
     const longitude = parseFloat(lng);
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-      return res.status(400).json({ error: "lat/lng required" });
+      return res.status(400).json({ error: "lat and lng are required" });
     }
 
-    const radiusMeters = Math.min(Math.max(Number(radiusKm) || 5, 1), 20) * 1000;
+    const radius = Math.min(Math.max(parseFloat(radiusKm) || 5, 1), 20);
     const max = Math.min(Math.max(parseInt(maxResults, 10) || 12, 1), 20);
+    const radiusMeters = Math.round(radius * 1000);
 
-    const CUISINE_KEYWORDS = {
-      "South Indian": "south indian OR udupi OR dosa OR idli OR vada",
-      "Indian": "north indian OR punjabi OR thali OR biryani",
-      "Chinese": "chinese OR indo-chinese OR hakka OR momos",
-      "Pizza": "pizza OR pizzeria",
-      "Street food": "street food OR chaat OR vada pav OR pav bhaji",
-      "Cafe": "cafe OR coffee OR brunch",
-      "Bakery / Desserts": "bakery OR desserts OR cake OR ice cream",
-      "Seafood": "seafood OR fish thali",
-      "Fast food": "burger OR fries OR sandwich",
-      "Vegetarian": "pure veg OR vegetarian",
-      "Bar / Pub": "bar OR pub OR brewery",
-      "Restaurant": "restaurant"
+    // ---------- Cuisine groups ----------
+    const CUISINE_GROUPS = {
+      "South Indian": ["South Indian", "Udupi", "Udipi", "Andhra", "Tamil"],
+      "North Indian": ["North Indian", "Punjabi", "Mughlai"],
+      "Maharashtrian": [
+        "Maharashtrian",
+        "Malvani",
+        "Kolhapuri",
+        "Puneri",
+        "Varhadi",
+        "Khandeshi",
+      ],
+      "Street food": ["Street food", "Chaat", "Snacks"],
+      "Seafood": ["Seafood", "Coastal", "Fish"],
+      "Vegetarian": ["Vegetarian", "Pure Veg"],
     };
 
-    const selected = cuisines
+    const rawCuisines = String(cuisines)
       .split(",")
-      .map(s => s.trim())
-      .filter(Boolean)
-      .slice(0, 3);
+      .map((s) => s.trim())
+      .filter(Boolean);
 
-    const keywords =
-      selected.length > 0
-        ? selected.map(c => CUISINE_KEYWORDS[c] || c)
-        : ["restaurant"];
+    // Expand cuisines into keyword list
+    const keywordSet = new Set();
 
-    async function fetchPlaces(keyword) {
-      const url = new URL("https://maps.googleapis.com/maps/api/place/nearbysearch/json");
-      url.searchParams.set("location", `${latitude},${longitude}`);
-      url.searchParams.set("radius", String(radiusMeters));
-      url.searchParams.set("type", "restaurant");
-      url.searchParams.set("keyword", keyword);
-      url.searchParams.set("key", GOOGLE_KEY);
-
-      const r = await fetch(url.toString());
-      const j = await r.json();
-      if (j.status !== "OK" && j.status !== "ZERO_RESULTS") return [];
-      return j.results || [];
-    }
-
-    const batches = await Promise.all(keywords.map(fetchPlaces));
-
-    const map = new Map();
-    for (const batch of batches) {
-      for (const r of batch) {
-        if (r.place_id && !map.has(r.place_id)) {
-          map.set(r.place_id, r);
-        }
+    for (const c of rawCuisines) {
+      if (CUISINE_GROUPS[c]) {
+        CUISINE_GROUPS[c].forEach((k) => keywordSet.add(k));
+      } else {
+        keywordSet.add(c);
       }
     }
 
-    const places = Array.from(map.values())
-      .slice(0, max)
-      .map(r => ({
-        id: r.place_id,
-        name: r.name,
-        area: r.vicinity || "",
-        city: "Nearby",
-        coords: r.geometry?.location
+    const keywords = Array.from(keywordSet);
+
+    // ---------- Google Places fetch ----------
+    async function fetchNearby(keyword) {
+      const url = new URL(
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
+      );
+      url.searchParams.set("location", `${latitude},${longitude}`);
+      url.searchParams.set("radius", String(radiusMeters));
+      url.searchParams.set("type", "restaurant");
+      if (keyword) url.searchParams.set("keyword", keyword);
+      url.searchParams.set("key", GOOGLE_KEY);
+
+      const response = await fetch(url.toString());
+      const text = await response.text();
+
+      if (!response.ok) return null;
+      try {
+        return JSON.parse(text);
+      } catch {
+        return null;
+      }
+    }
+
+    // ---------- Run searches ----------
+    let merged = [];
+
+    if (keywords.length) {
+      const searches = keywords.map((k) =>
+        fetchNearby(`${k} restaurant`)
+      );
+      const results = await Promise.all(searches);
+
+      for (const data of results) {
+        if (!data) continue;
+        if (data.status === "OK" && Array.isArray(data.results)) {
+          merged.push(...data.results);
+        }
+      }
+    } else {
+      const data = await fetchNearby();
+      if (!data) {
+        return res.status(502).json({ error: "Places API error" });
+      }
+      if (data.status === "OK" && Array.isArray(data.results)) {
+        merged = data.results;
+      }
+    }
+
+    // ---------- Deduplicate ----------
+    const seen = new Set();
+    const deduped = [];
+    for (const r of merged) {
+      if (!r.place_id || seen.has(r.place_id)) continue;
+      seen.add(r.place_id);
+      deduped.push(r);
+      if (deduped.length >= max) break;
+    }
+
+    const places = deduped.map((r) => ({
+      id: r.place_id,
+      name: r.name,
+      area: r.vicinity || "",
+      city: "",
+      coords:
+        r.geometry?.location
           ? { lat: r.geometry.location.lat, lng: r.geometry.location.lng }
           : null,
-        rating: r.rating,
-        userRatingsTotal: r.user_ratings_total,
-        priceLevel: r.price_level,
-        types: r.types || []
-      }));
+      rating: r.rating,
+      userRatingsTotal: r.user_ratings_total,
+      priceLevel: r.price_level,
+      types: r.types || [],
+    }));
 
     return res.status(200).json({ places });
-
-  } catch (e) {
-    console.error("places api error", e);
-    return res.status(500).json({ error: "Server error" });
+  } catch (err) {
+    console.error("[api/places] error", err);
+    return res.status(500).json({ error: "Internal server error" });
   }
 }
