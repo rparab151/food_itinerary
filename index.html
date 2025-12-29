@@ -48,6 +48,1313 @@
       color:var(--text);
     }
 
+    a{color:inherit;text-decoration:none}
+
+    .wrap{max-width:1120px;margin:0 auto;padding:18px;padding-bottom:28px}
+    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:10px 0 18px}
+    .title h1{margin:0;font-size:26px;letter-spacing:-.4px;line-height:1.12}
+    .subtitle{margin-top:8px;color:var(--muted);font-size:13.5px;line-height:1.4}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+    .btn{
+      border:1px solid var(--border); background:rgba(255,255,255,.05);
+      color:var(--text); padding:10px 12px; border-radius:14px; cursor:pointer;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      user-select:none; font-weight:650; font-size:13px;
+      display:inline-flex; align-items:center; justify-content:center;
+      line-height:1;
+    }
+    .btn:hover{background:rgba(255,255,255,.08);border-color:var(--ring)}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(110,231,183,.24), rgba(110,231,183,.10));
+      border-color: var(--accentBd);
+    }
+    .btn.link{
+      padding:8px 10px;
+      border-radius:12px;
+      font-size:12.5px;
+    }
+
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:980px){.grid{grid-template-columns:420px 1fr;align-items:start}}
+
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card2));
+      border:1px solid var(--border);
+      border-radius:var(--radius2);
+      padding:14px;
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .cardHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .cardTitle{font-weight:800;font-size:15px;letter-spacing:-.2px}
+    .cardSub{margin-top:4px;color:var(--muted);font-size:13px;line-height:1.35}
+
+    .controls{display:grid;gap:12px;margin-top:12px}
+    label{display:block;color:var(--muted);font-size:12.5px;margin-bottom:6px;font-weight:650}
+    select,input{
+      width:100%; padding:11px 12px; border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--text); outline:none; transition:border-color .18s ease, background .18s ease;
+      font-size:14px;
+    }
+    select:focus,input:focus{border-color:var(--ring); background:rgba(255,255,255,.08)}
+
+    .segmented{
+      display:flex; gap:8px; background:rgba(255,255,255,.04);
+      border:1px solid var(--border); padding:6px; border-radius:16px;
+    }
+    .seg{
+      flex:1; padding:10px 10px; border-radius:12px;
+      border:1px solid transparent; background:transparent; color:var(--text);
+      cursor:pointer; font-weight:750; font-size:13px;
+      transition:background .18s ease, border-color .18s ease, transform .08s ease;
+    }
+    .seg.on{background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border-color:var(--ring)}
+    .seg:active{transform:translateY(1px)}
+
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid var(--chipBd); background:var(--chip);
+      font-size:12px;font-weight:650;white-space:nowrap;
+    }
+    .chip.good{background:var(--goodBg);border-color:var(--goodBd)}
+    .chip.bad{background:var(--badBg);border-color:var(--badBd)}
+    .dot{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.18)}
+    [data-theme="light"] .dot{background:rgba(0,0,0,.28);border-color:rgba(0,0,0,.18)}
+
+    .stack{display:flex;flex-direction:column;gap:14px}
+    .split{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-top:10px}
+    .kpi{
+      display:flex;flex-direction:column;gap:6px;
+      padding:12px 12px;border-radius:var(--radius);
+      border:1px solid var(--border); background:rgba(255,255,255,.04);
+      min-width:160px; flex:1;
+    }
+    .kpi .k{color:var(--muted);font-size:12px;font-weight:650}
+    .kpi .v{font-size:16px;font-weight:900;letter-spacing:-.2px}
+    .kpi .s{color:var(--muted);font-size:12px}
+
+    .progress{margin-top:12px;height:10px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid var(--border);overflow:hidden}
+    .bar{height:100%;width:0%;background:linear-gradient(90deg, rgba(110,231,183,.75), rgba(59,130,246,.75))}
+    [data-theme="light"] .bar{background:linear-gradient(90deg, rgba(59,130,246,.70), rgba(16,185,129,.70))}
+
+    .sectionTitle{
+      margin-top:14px;font-weight:900;font-size:13px;letter-spacing:.2px;
+      text-transform:uppercase;color:var(--muted);
+    }
+    .small{font-size:12px;color:var(--muted)}
+    .tip{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.4}
+    .warn{margin-top:12px;padding:11px 12px;border-radius:var(--radius);border:1px solid var(--badBd);background:var(--badBg);font-size:13px;line-height:1.35}
+
+    .timeline{display:grid;gap:8px;margin-top:10px}
+    .trow{
+      display:grid; grid-template-columns:70px 12px 1fr; gap:10px; align-items:center;
+      padding:10px 12px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(255,255,255,.04);
+    }
+    .tt{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+    .tl{font-size:14px;font-weight:650}
+
+    /* Alternatives */
+    details.alt{margin-top:12px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(255,255,255,.03);overflow:hidden}
+    summary.altSum{
+      list-style:none; cursor:pointer; user-select:none;
+      padding:10px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px;
+      font-weight:850; font-size:13px;
+    }
+    summary.altSum::-webkit-details-marker{display:none}
+    .altBody{padding:10px 12px;border-top:1px solid var(--border)}
+    .altCard{
+      padding:10px 10px;border-radius:16px;border:1px solid var(--border);
+      background:rgba(255,255,255,.04); margin-bottom:10px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    .altCard:last-child{margin-bottom:0}
+    .altName{font-weight:900; letter-spacing:-.2px}
+    .altSub{margin-top:4px;color:var(--muted);font-size:12.5px}
+    .altMeta{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; align-items:center}
+
+    /* Places list */
+    .list{display:grid;gap:10px;margin-top:12px}
+    .li{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 12px;border-radius:var(--radius);border:1px solid var(--border);background:rgba(255,255,255,.04)}
+    .li .name{font-weight:900;letter-spacing:-.2px}
+    .li .sub{color:var(--muted);font-size:13px;margin-top:4px}
+    .li .meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+
+    /* Toggle */
+    .toggle{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:10px 12px; border-radius:16px; border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .toggle .tTitle{font-weight:850; font-size:13px}
+    .switch{position:relative; width:44px; height:26px; flex:0 0 auto}
+    .switch input{opacity:0; width:0; height:0}
+    .slider{
+      position:absolute; inset:0; border-radius:999px;
+      background: rgba(255,255,255,.18); border:1px solid var(--border);
+      transition: .18s ease;
+    }
+    .slider:before{
+      content:""; position:absolute; height:20px; width:20px; left:3px; top:50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.88); border-radius:999px;
+      transition: .18s ease;
+      box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    }
+    .switch input:checked + .slider{
+      background: rgba(110,231,183,.35); border-color: var(--accentBd);
+    }
+    .switch input:checked + .slider:before{ transform: translate(18px, -50%); }
+
+    /* Map */
+    .mapShell{
+      margin-top:10px;
+      border-radius:var(--radius);
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      overflow:hidden;
+    }
+    #homeMap{ width:100%; height:190px; }
+    .placeMap{ width:100%; height:170px; }
+    .mapPlaceholder{
+      padding:10px 12px;
+      font-size:12px;
+      color:var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap" id="app" data-theme="dark">
+    <header class="top">
+      <div class="title">
+        <h1>Food Itinerary Builder</h1>
+        <div class="subtitle">
+          Home: <b id="homeLabelDisplay"></b> • Constraint: <b id="constraintLabel">≤ 3 hours outside</b> • Plans: <b>Upscale</b> & <b>Cheap</b> • Travel: <b>Cab</b> vs <b>Local</b>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="themeBtn" class="btn" type="button" title="Toggle theme">🌙 Dark</button>
+        <button id="resetBtn" class="btn primary" type="button" title="Reset settings">Reset</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Settings -->
+      <div class="card">
+        <div class="cardHead">
+          <div>
+            <div class="cardTitle">Settings</div>
+            <div class="cardSub">Set your home address, choose outing type, start time, and travel style. Results prefer options within your 3-hour limit.</div>
+          </div>
+        </div>
+
+        <div class="controls">
+
+<div>
+            <label>Home address</label>
+            <input id="homeAddress" placeholder="Start typing your address..." autocomplete="off" />
+            <div class="row" style="margin-top:6px; gap:8px">
+              <button id="useCurrentLocation" class="btn" type="button" style="padding:6px 10px;font-size:12px;">
+                Use my current location
+              </button>
+              <span id="locationStatus" class="small"></span>
+            </div>
+            <div class="small">Search or use your current location (Google Places Autocomplete).</div>
+            <div class="mapShell">
+              <div id="homeMap">
+                <div class="mapPlaceholder">Select an address or use your current location to see it on the map.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>Search area (optional)</label>
+            <input id="searchArea" placeholder="e.g., Matunga Station / Dadar / BKC" autocomplete="off" />
+            <div class="row" style="margin-top:6px; gap:8px">
+              <button id="useHomeAsSearch" class="btn" type="button" style="padding:6px 10px;font-size:12px;">
+                Use home as search area
+              </button>
+              <span id="searchAreaStatus" class="small"></span>
+            </div>
+            <div class="small">Controls where restaurants are discovered. Travel time is still computed from Home.</div>
+          </div>
+
+          <div>
+            <label>Outing type</label>
+            <select id="outingKey"></select>
+          </div>
+
+          <div>
+            <label>Cuisines</label>
+            <select id="cuisineFilter" multiple size="6"></select>
+            <div class="small">Select one or more cuisines, or leave empty to include all.</div>
+          </div>
+
+          <div class="row" style="gap:12px">
+            <div style="flex:1; min-width: 170px;">
+              <label>Start time</label>
+              <input id="startTime" value="20:00" placeholder="HH:MM" />
+            </div>
+            <div style="width: 140px;">
+              <label>Buffer</label>
+              <input id="bufferMins" type="number" min="0" max="30" value="12" />
+            </div>
+          </div>
+
+          <div>
+            <label>Max outing length (hours)</label>
+            <input id="maxHours" type="range" min="0" max="10" step="0.5" value="3" />
+            <div class="small"><span id="maxHoursLabel">3</span> hours (0 = no limit)</div>
+          </div>
+
+          <div>
+            <label>Travel style</label>
+            <div class="segmented" role="group" aria-label="Travel style">
+              <button id="travelComfort" class="seg on" type="button">Cab</button>
+              <button id="travelCheap" class="seg" type="button">Local</button>
+            </div>
+          </div>
+
+          <div class="row" style="gap:12px">
+            <div style="flex:1; min-width:180px;">
+              <label>Discovery</label>
+              <select id="discoveryMode">
+                <option value="balanced">Balanced (nearby + good)</option>
+                <option value="famous">Try something nearby &amp; famous</option>
+              </select>
+            </div>
+
+            <div style="flex:1; min-width:180px;">
+              <label>Diet</label>
+              <div class="toggle">
+                <div>
+                  <div class="tTitle">Pure veg only</div>
+                  <div class="small">Best-effort filter</div>
+                </div>
+                <label class="switch" aria-label="Pure veg only">
+                  <input id="pureVegOnly" type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label>Results</label>
+            <div class="toggle">
+              <div>
+                <div class="tTitle">Show alternatives</div>
+                <div class="small">Show top 3 picks per category.</div>
+              </div>
+              <label class="switch" aria-label="Show alternatives">
+                <input id="showAlts" type="checkbox" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <button id="searchBtn" class="btn primary" type="button" style="width:100%;margin-top:4px;">
+              Search
+            </button>
+            <div class="small">Adjust home, search area, cuisines, time limit, travel style, then hit Search.</div>
+          </div>
+
+          <div>
+            <label>Constraint</label>
+            <div class="row">
+              <span class="chip good"><span class="dot"></span> Max time out: <b id="maxHoursChip">3 hours</b></span>
+              <span class="chip"><span class="dot"></span> Door-to-door estimate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="stack">
+        <div id="cardA"></div>
+        <div id="cardB"></div>
+        <div id="placesCard"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ---------- Data ----------
+  const BACKEND_BASE = "/api";
+
+  const FIXED_CUISINES = [
+    "Indian",
+    "South Indian",
+    "North Indian",
+    "Maharashtrian",
+    "Malvani",
+    "Khandeshi",
+    "Kolhapuri",
+    "Varhadi",
+    "Puneri",
+    "Chinese",
+    "Pizza",
+    "Seafood",
+    "Street food",
+    "Fast food",
+    "Cafe",
+    "Bakery / Desserts",
+    "Vegetarian",
+    "Bar / Pub",
+    "Restaurant",
+    "Multi-cuisine / Mall",
+    "Modern Indian / Global"
+  ];
+
+  // Places returned by backend (dynamic near search center). No static fallback in production mode.
+  let backendPlaces = [];
+  function currentPlacePool(){ return backendPlaces; }
+
+  const outingTemplates = [
+    { key:"breakfast", label:"Breakfast", defaultStart:"09:30" },
+    { key:"lunch", label:"Lunch", defaultStart:"13:00" },
+    { key:"snack", label:"Evening Snacks", defaultStart:"17:30" },
+    { key:"dinner", label:"Dinner", defaultStart:"20:00" }
+  ];
+
+  // ---------- State ----------
+  const state = {
+    homeLabel: "",
+    homeLocation: null, // {lat, lng}
+
+    searchLabel: "",
+    searchLocation: null, // {lat, lng} optional; defaults to home
+
+    selectedCuisines: [],
+    outingKey: "dinner",
+    startTime: "20:00",
+    bufferMins: 12,
+    maxHours: 3,
+    travelStyle: "comfortable", // comfortable|cheap
+    showAlts: false,
+
+    pureVegOnly: false,
+    discoveryMode: "balanced",
+
+    theme: "dark",
+    hasSearched: false
+  };
+
+  // ---------- Helpers ----------
+  const $ = (id)=>document.getElementById(id);
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+  function parseHHMM(hhmm){
+    const [h,m] = String(hhmm).split(":").map(Number);
+    if(!Number.isFinite(h) || !Number.isFinite(m)) return 20*60;
+    return clamp(h,0,23)*60 + clamp(m,0,59);
+  }
+  function fmtTime(mins){
+    const total = Math.round(mins);
+    const h = Math.floor(total/60);
+    const m = total%60;
+    const pad = (x)=>String(x).padStart(2,"0");
+    return `${pad(h)}:${pad(m)}`;
+  }
+  function fmtDuration(mins){
+    const total = Math.round(mins);
+    const h = Math.floor(total/60);
+    const m = total%60;
+    if(h<=0) return `${m}m`;
+    if(m===0) return `${h}h`;
+    return `${h}h ${m}m`;
+  }
+  function inr(n){
+    const x = Math.round(Number(n)||0);
+    return "₹"+x.toLocaleString("en-IN");
+  }
+  function fmtHours(h){
+    const rounded = Math.round(h * 10) / 10;
+    if (Math.abs(rounded - Math.round(rounded)) < 1e-6) return String(Math.round(rounded));
+    return rounded.toFixed(1);
+  }
+  function deg2rad(d){ return d * Math.PI / 180; }
+  function distanceKmBetween(a, b){
+    if(!a || !b) return 0;
+    const R = 6371;
+    const dLat = deg2rad(b.lat - a.lat);
+    const dLng = deg2rad(b.lng - a.lng);
+    const lat1 = deg2rad(a.lat);
+    const lat2 = deg2rad(b.lat);
+    const sinDLat = Math.sin(dLat/2);
+    const sinDLng = Math.sin(dLng/2);
+    const h = sinDLat*sinDLat + Math.cos(lat1)*Math.cos(lat2)*sinDLng*sinDLng;
+    const c = 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1-h));
+    return R * c;
+  }
+  function timeLimitMinutes(){
+    const hrs = clamp(Number(state.maxHours ?? 0), 0, 10);
+    return Math.round(hrs * 60);
+  }
+  function hasTimeLimit(){ return timeLimitMinutes() > 0; }
+  function travelMode(){ return state.travelStyle === "comfortable" ? "cab" : "local"; }
+
+  function getTravelStats(place, mode){
+    if (state.homeLocation && place.coords){
+      const dKm = distanceKmBetween(state.homeLocation, place.coords);
+      const baseKm = Math.max(dKm, 0.5);
+      let timeMins;
+      let cost;
+      if (mode === "cab"){
+        const speedKmph = 15;
+        timeMins = (baseKm / speedKmph) * 60;
+        cost = 70 + 22 * baseKm;
+      } else {
+        const speedKmph = 10;
+        timeMins = (baseKm / speedKmph) * 60 + 10;
+        cost = 20 + 4 * baseKm;
+      }
+      return { time: Math.max(5, timeMins), cost: Math.max(0, cost) };
+    }
+    return { time:60, cost:0 };
+  }
+  function totalMinutesFor(place){
+    const mode = travelMode();
+    const oneWay = getTravelStats(place, mode).time ?? 60;
+    return oneWay*2 + (place.avgMealMins ?? 75) + state.bufferMins;
+  }
+  function scorePlace(place){
+    let s = 0;
+    if(place.bestFor?.includes(state.outingKey)) s += 6;
+
+    const total = totalMinutesFor(place);
+    const limit = timeLimitMinutes();
+    if(limit > 0){
+      if(total > limit) s -= 100; else s += 12;
+    } else {
+      s += 6;
+    }
+
+    const oneWay = getTravelStats(place, travelMode()).time ?? 60;
+    s += Math.max(0, 18 - Math.round(oneWay/5));
+
+    // tiny nudge for rated places
+    if (typeof place.rating === "number") s += Math.min(3, Math.max(-1, place.rating - 4.0));
+    if (typeof place.userRatingsTotal === "number") s += Math.min(2, Math.log10(1 + place.userRatingsTotal));
+    return s;
+  }
+  function buildItinerary(place){
+    const mode = travelMode();
+    const stats = getTravelStats(place, mode);
+    const oneWay = stats.time ?? 60;
+    const costOW = stats.cost ?? 0;
+    const startMins = parseHHMM(state.startTime);
+
+    const leave = startMins;
+    const arrive = leave + oneWay;
+    const mealStart = arrive;
+    const mealEnd = mealStart + (place.avgMealMins ?? 75);
+    const departBack = mealEnd + state.bufferMins;
+    const home = departBack + oneWay;
+
+    return {
+      place,
+      mode,
+      oneWayMins: oneWay,
+      totalOutMins: home - leave,
+      travelCostTotal: costOW*2,
+      timeline: [
+        { t: fmtTime(leave), label: `Leave ${state.homeLabel || "home"}` },
+        { t: fmtTime(arrive), label: `Arrive: ${place.area || "Destination"}` },
+        { t: fmtTime(mealStart), label: `Eat: ${place.name}` },
+        { t: fmtTime(mealEnd), label: "Finish meal" },
+        { t: fmtTime(departBack), label: "Head back (buffer / bill / settle)" },
+        { t: fmtTime(home), label: `Back to ${state.homeLabel || "home"}` }
+      ]
+    };
+  }
+
+function getRanked(foodBudget){
+    const limit = timeLimitMinutes();
+    let pool = currentPlacePool().filter(p => p.foodBudget === foodBudget);
+
+    if (hasTimeLimit()){
+      pool = pool.filter(p => totalMinutesFor(p) <= limit);
+    }
+
+    return pool
+      .map(p => ({p, s: scorePlace(p)}))
+      .sort((a,b)=>b.s-a.s)
+      .map(x=>x.p);
+  }
+
+  function pickPrimaryAndAlts(foodBudget, k=3){
+    const ranked = getRanked(foodBudget);
+    if(ranked.length === 0) return { primary:null, alts:[] };
+    const primary = ranked[0];
+    const alts = ranked.filter(p => p.id !== primary.id).slice(0, Math.max(0, k-1));
+    return { primary, alts };
+  }
+
+  function chip(text, tone){
+    return `<span class="chip ${tone||""}"><span class="dot"></span>${text}</span>`;
+  }
+
+  function googleMapsSearchUrl(place){
+    if (!place) return "#";
+    const q = `${place.name || ""} ${place.area || ""}`.trim() || "restaurant";
+    const base = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+    return place.id ? `${base}&query_place_id=${encodeURIComponent(place.id)}` : base;
+  }
+
+  function directionsUrlForPlace(place){
+    if (!place || !place.coords) return "#";
+    const dest = `${place.coords.lat},${place.coords.lng}`;
+    if (state.homeLocation){
+      const origin = `${state.homeLocation.lat},${state.homeLocation.lng}`;
+      return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(dest)}`;
+    }
+    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(dest)}`;
+  }
+
+  function renderAltCards(alts){
+    if(!alts || alts.length === 0) return "";
+    const cards = alts.map(p=>{
+      const itin = buildItinerary(p);
+      const limit = timeLimitMinutes();
+      const within = !hasTimeLimit() || itin.totalOutMins <= limit;
+      const travelHuman = itin.mode === "cab" ? "Cab" : "Local";
+      const rating = (typeof p.rating === "number") ? `⭐ ${p.rating.toFixed(1)}` : "—";
+      return `
+        <div class="altCard">
+          <div>
+            <div class="altName">${p.name}</div>
+            <div class="altSub">${p.area || "Nearby"} • ${p.cuisine || "Restaurant"} • ${rating}</div>
+            <div class="row" style="margin-top:8px">
+              ${chip(travelHuman)}
+              ${chip(p.priceTag || "₹₹")}
+              ${chip(within ? "Within limit" : "Above limit", within ? "good":"bad")}
+            </div>
+          </div>
+          <div class="altMeta">
+            ${chip("Time: " + fmtDuration(itin.totalOutMins))}
+            ${chip("Travel: " + inr(itin.travelCostTotal))}
+            <a class="btn link" href="${googleMapsSearchUrl(p)}" target="_blank" rel="noopener noreferrer">Google</a>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    return `
+      <details class="alt" open>
+        <summary class="altSum">
+          <span>Alternatives</span>
+          <span class="small">Additional picks</span>
+        </summary>
+        <div class="altBody">${cards}</div>
+      </details>
+    `;
+  }
+
+  function renderItineraryCard(label, itinerary, foodBudget, alts){
+    if(!itinerary){
+      return `<div class="card"><div class="cardTitle">${label}</div><div class="cardSub">No options found for your current constraints.</div></div>`;
+    }
+    const mapId = label.startsWith("A") ? "resultMapA" : "resultMapB";
+    const limit = timeLimitMinutes();
+    const within = !hasTimeLimit() || itinerary.totalOutMins <= limit;
+    const foodChip = foodBudget === "comfortable" ? "Upscale" : "Cheap";
+    const travelChip = state.travelStyle === "comfortable" ? "Cab" : "Local";
+    const travelHuman = itinerary.mode === "cab" ? "Cab" : "Local";
+
+    const progressPct = hasTimeLimit()
+      ? Math.min(100, Math.round((itinerary.totalOutMins / limit) * 100))
+      : 0;
+
+    const timeline = itinerary.timeline.map(x => `
+      <div class="trow">
+        <div class="tt">${x.t}</div>
+        <div class="dot"></div>
+        <div class="tl">${x.label}</div>
+      </div>
+    `).join("");
+
+    const warn = within || !hasTimeLimit() ? "" : `<div class="warn">
+      This option may exceed your selected time limit depending on traffic.
+    </div>`;
+
+    const altsBlock = (state.showAlts && alts && alts.length) ? renderAltCards(alts) : "";
+
+    const ratingLine = (() => {
+      const r = itinerary.place.rating;
+      const n = itinerary.place.userRatingsTotal;
+      if (typeof r === "number" && typeof n === "number") return `⭐ ${r.toFixed(1)} (${n.toLocaleString("en-IN")} reviews)`;
+      if (typeof r === "number") return `⭐ ${r.toFixed(1)}`;
+      return "";
+    })();
+
+    return `
+      <div class="card">
+        <div class="cardHead">
+          <div>
+            <div class="cardTitle">${label}</div>
+            <div class="cardSub">
+              ${itinerary.place.name} • ${itinerary.place.area || "Nearby"} • ${itinerary.place.cuisine || "Restaurant"}
+              ${ratingLine ? ` • <span class="small">${ratingLine}</span>` : ""}
+            </div>
+            <div class="row" style="margin-top:10px">
+              ${chip(foodChip)}
+              ${chip("Travel: " + travelChip)}
+              <span class="chip"><span class="dot"></span>${itinerary.place.priceTag || "₹₹"}</span>
+              <span class="chip ${within ? "good":"bad"}"><span class="dot"></span>${
+                hasTimeLimit()
+                  ? (within ? `≤ ${fmtHours(limit/60)} hours` : `> ${fmtHours(limit/60)} hours`)
+                  : "No time limit"
+              }</span>
+              ${state.pureVegOnly ? chip("Pure veg") : ""}
+              ${state.discoveryMode === "famous" ? chip("Famous mode") : ""}
+            </div>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="kpi">
+            <div class="k">Travel mode</div>
+            <div class="v">${travelHuman}</div>
+            <div class="s">One-way: ${fmtDuration(itinerary.oneWayMins)}</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Total time out</div>
+            <div class="v">${fmtDuration(itinerary.totalOutMins)}</div>
+            <div class="s">Buffer: ${state.bufferMins}m</div>
+          </div>
+          <div class="kpi">
+            <div class="k">Travel cost (est.)</div>
+            <div class="v">${inr(itinerary.travelCostTotal)}</div>
+            <div class="s">Round trip</div>
+          </div>
+        </div>
+
+        <div class="progress" aria-label="Time budget">
+          <div class="bar" style="width:${progressPct}%"></div>
+        </div>
+        <div class="small" style="margin-top:6px">${
+          hasTimeLimit()
+            ? `${progressPct}% of your ${fmtHours(limit/60)}-hour limit`
+            : "No time limit set"
+        }</div>
+
+        ${altsBlock}
+
+        <div class="sectionTitle">Timeline</div>
+        <div class="timeline">${timeline}</div>
+
+        ${itinerary.place.coords ? `
+        <div class="sectionTitle">Map</div>
+        <div class="mapShell">
+          <div id="${mapId}" class="placeMap">
+            <div class="mapPlaceholder">Loading map…</div>
+          </div>
+        </div>
+        <div class="row" style="margin-top:8px">
+          <a class="btn link" href="${googleMapsSearchUrl(itinerary.place)}"
+             target="_blank" rel="noopener noreferrer">Google</a>
+          <a class="btn link" href="${directionsUrlForPlace(itinerary.place)}"
+             target="_blank" rel="noopener noreferrer">Directions</a>
+        </div>
+        ` : ""}
+
+        ${warn}
+      </div>
+    `;
+  }
+
+  function renderPlacesCard(){
+    const mode = travelMode();
+    const modeHuman = mode === "cab" ? "Cab" : "Local";
+    const limit = timeLimitMinutes();
+
+    let rowsData = currentPlacePool().slice();
+    if (hasTimeLimit()){
+      rowsData = rowsData.filter(p => totalMinutesFor(p) <= limit);
+    }
+
+    const rows = rowsData.map(p=>{
+      const total = totalMinutesFor(p);
+      const within = !hasTimeLimit() || total <= limit;
+      const travel = getTravelStats(p, mode);
+      const rating = (typeof p.rating === "number") ? ` • ⭐ ${p.rating.toFixed(1)}` : "";
+      return `
+        <div class="li">
+          <div>
+            <div class="name">${p.name}</div>
+            <div class="sub">${p.area || "Nearby"} • ${p.cuisine || "Restaurant"}${rating}</div>
+          </div>
+          <div class="meta">
+            ${chip(p.foodBudget === "comfortable" ? "Upscale" : "Cheap")}
+            ${chip(modeHuman)}
+            ${chip("One-way: " + fmtDuration(travel.time))}
+            ${chip(within ? "Within limit" : "Above limit", within ? "good":"bad")}
+            <a class="btn link" href="${googleMapsSearchUrl(p)}" target="_blank" rel="noopener noreferrer">Google</a>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    const subtitle = backendPlaces.length
+      ? `Live places loaded (${backendPlaces.length}).`
+      : `No live places loaded yet.`;
+
+    return `
+      <div class="card">
+        <div class="cardHead">
+          <div>
+            <div class="cardTitle">Included places</div>
+            <div class="cardSub">${subtitle}${rowsData.length === 0 && backendPlaces.length ? " No places fit the current time limit." : ""}</div>
+          </div>
+        </div>
+        <div class="list">${rows || "<div class='small'>No places available for the current filters.</div>"}</div>
+      </div>
+    `;
+  }
+
+  function render(){
+    const originOk = !!state.homeLocation;
+
+    if (!state.hasSearched){
+      $("cardA").innerHTML = `
+        <div class="card">
+          <div class="cardHead">
+            <div>
+              <div class="cardTitle">A) Upscale</div>
+              <div class="cardSub">${originOk ? "Click Search to generate an upscale plan." : "Set your Home address first."}</div>
+            </div>
+          </div>
+        </div>`;
+      $("cardB").innerHTML = `
+        <div class="card">
+          <div class="cardHead">
+            <div>
+              <div class="cardTitle">B) Cheap</div>
+              <div class="cardSub">${originOk ? "Click Search to generate a cheap plan." : "Set your Home address first."}</div>
+            </div>
+          </div>
+        </div>`;
+      $("placesCard").innerHTML = renderPlacesCard();
+      return;
+    }
+
+    if (!originOk){
+      $("cardA").innerHTML = `<div class="card"><div class="cardTitle">A) Upscale</div><div class="cardSub">Set your Home address to compute travel time.</div></div>`;
+      $("cardB").innerHTML = `<div class="card"><div class="cardTitle">B) Cheap</div><div class="cardSub">Set your Home address to compute travel time.</div></div>`;
+      $("placesCard").innerHTML = renderPlacesCard();
+      return;
+    }
+
+    const a = pickPrimaryAndAlts("comfortable", 3);
+    const b = pickPrimaryAndAlts("cheap", 3);
+
+    const aItin = a.primary ? buildItinerary(a.primary) : null;
+    const bItin = b.primary ? buildItinerary(b.primary) : null;
+
+    $("cardA").innerHTML = renderItineraryCard("A) Upscale", aItin, "comfortable", a.alts);
+    $("cardB").innerHTML = renderItineraryCard("B) Cheap", bItin, "cheap", b.alts);
+    $("placesCard").innerHTML = renderPlacesCard();
+
+    if (window.google && google.maps){
+      initResultMaps(aItin, bItin);
+    }
+  }
+
+  // ---------- Wire UI ----------
+  const outingSelect = $("outingKey");
+  const homeDisplay = $("homeLabelDisplay");
+  const homeMapEl = document.getElementById("homeMap");
+  let homeMap = null;
+  let homeMapMarker = null;
+
+  const cuisineSelect = $("cuisineFilter");
+  const maxHoursInput = $("maxHours");
+  const maxHoursLabel = $("maxHoursLabel");
+  const maxHoursChip = $("maxHoursChip");
+  const constraintLabel = document.getElementById("constraintLabel");
+  const searchBtn = $("searchBtn");
+  const searchAreaStatusEl = document.getElementById("searchAreaStatus");
+
+  const discoveryModeSel = document.getElementById("discoveryMode");
+  const pureVegChk = document.getElementById("pureVegOnly");
+
+  function updateHomeLabelDisplay(){
+    homeDisplay.textContent = state.homeLabel || "Home";
+  }
+  function setHomeLabelFromString(label){
+    state.homeLabel = label || "";
+    updateHomeLabelDisplay();
+  }
+  function setSearchLabelFromString(label){
+    state.searchLabel = label || "";
+  }
+
+  function updateMaxHoursUI(){
+    const hrs = clamp(Number(state.maxHours ?? 0), 0, 10);
+    if (maxHoursInput) maxHoursInput.value = String(hrs);
+    if (maxHoursLabel) maxHoursLabel.textContent = String(hrs);
+    if (maxHoursChip) {
+      maxHoursChip.textContent = hrs === 0
+        ? "No limit"
+        : `${hrs} hour${hrs === 1 ? "" : "s"}`;
+    }
+    if (constraintLabel){
+      constraintLabel.textContent = hrs === 0
+        ? "No time limit"
+        : `≤ ${hrs} hour${hrs === 1 ? "" : "s"} outside`;
+    }
+  }
+
+  function updateHomeMap(){
+    if (!homeMapEl || !window.google || !google.maps || !state.homeLocation) return;
+    const center = state.homeLocation;
+
+    if (!homeMap) {
+      homeMap = new google.maps.Map(homeMapEl, { center, zoom: 14, disableDefaultUI: true, zoomControl: true });
+      homeMapMarker = new google.maps.Marker({ position: center, map: homeMap });
+    } else {
+      homeMap.setCenter(center);
+      if (homeMapMarker) homeMapMarker.setPosition(center);
+      else homeMapMarker = new google.maps.Marker({ position: center, map: homeMap });
+    }
+  }
+
+  function initPlaceMap(elemId, coords){
+    const el = document.getElementById(elemId);
+    if (!el || !window.google || !google.maps) return;
+    const map = new google.maps.Map(el, { center: coords, zoom: 14, disableDefaultUI: true, zoomControl: true });
+    new google.maps.Marker({ position: coords, map });
+  }
+
+  function initResultMaps(aItin, bItin){
+    if (aItin?.place?.coords) initPlaceMap("resultMapA", aItin.place.coords);
+    if (bItin?.place?.coords) initPlaceMap("resultMapB", bItin.place.coords);
+  }
+
+  function cuisineFromGoogleTypes(types){
+    if (!Array.isArray(types) || !types.length) return "Restaurant";
+    const has = (needle)=> types.some(t=>String(t).toLowerCase().includes(needle));
+    if (has("south_indian")) return "South Indian";
+    if (has("north_indian") || has("indian")) return "Indian";
+    if (has("pizza")) return "Pizza";
+    if (has("chinese")) return "Chinese";
+    if (has("seafood")) return "Seafood";
+    if (has("bakery")) return "Bakery / Desserts";
+    if (has("cafe")) return "Cafe";
+    if (has("bar")) return "Bar / Pub";
+    if (has("fast_food")) return "Fast food";
+    if (has("vegetarian")) return "Vegetarian";
+    return "Restaurant";
+  }
+
+  function priceLevelToTag(level){
+    if(level === 0 || level === 1) return "₹";
+    if(level === 2) return "₹₹";
+    if(level >= 3) return "₹₹₹";
+    return "₹₹";
+  }
+  function priceLevelToBudget(level){
+    if(level === 0 || level === 1) return "cheap";
+    return "comfortable";
+  }
+  function placeFromBackendResult(r){
+    const level = typeof r.priceLevel === "number" ? r.priceLevel : 1;
+    const priceTag = priceLevelToTag(level);
+    const foodBudget = priceLevelToBudget(level);
+    const area = r.area || "Nearby";
+    return {
+      id: r.id || r.name,
+      city: r.city || "Nearby",
+      area,
+      name: r.name || "Nearby restaurant",
+      cuisine: cuisineFromGoogleTypes(r.types || []),
+      foodBudget,
+      priceTag,
+      avgMealMins: 75,
+      coords: r.coords || null,
+      travel:{},
+      bestFor:["breakfast","lunch","snack","dinner"],
+      tip: "",
+      rating: r.rating,
+      userRatingsTotal: r.userRatingsTotal
+    };
+  }
+
+  async function loadDynamicPlacesForCenter(){
+    const center = state.searchLocation || state.homeLocation;
+    if (!center || !window.fetch) {
+      backendPlaces = [];
+      render();
+      return;
+    }
+    try{
+      const params = new URLSearchParams({
+        lat: String(center.lat),
+        lng: String(center.lng),
+        radiusKm: "5",
+        maxResults: "18",
+        cuisines: (state.selectedCuisines || []).join(","),
+        pureVeg: state.pureVegOnly ? "1" : "0",
+        discoveryMode: state.discoveryMode || "balanced"
+      });
+
+      const resp = await fetch(`${BACKEND_BASE}/places?${params.toString()}`);
+      if (!resp.ok){
+        backendPlaces = [];
+        render();
+        return;
+      }
+      const data = await resp.json();
+      const list = Array.isArray(data.places) ? data.places : [];
+      backendPlaces = list.map(placeFromBackendResult);
+      render();
+    } catch (err){
+      backendPlaces = [];
+      render();
+    }
+  }
+
+  outingTemplates.forEach(t=>{
+    const opt = document.createElement("option");
+    opt.value = t.key;
+    opt.textContent = t.label;
+    outingSelect.appendChild(opt);
+  });
+  outingSelect.value = state.outingKey;
+
+  updateHomeLabelDisplay();
+  updateMaxHoursUI();
+  setTheme(state.theme);
+
+  if (cuisineSelect){
+    FIXED_CUISINES.forEach(c=>{
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c;
+      cuisineSelect.appendChild(opt);
+    });
+
+    cuisineSelect.addEventListener("change", ()=>{
+      const selected = Array.from(cuisineSelect.selectedOptions).map(o=>o.value);
+      state.selectedCuisines = selected;
+      state.hasSearched = false;
+      render();
+    });
+  }
+
+  if (maxHoursInput){
+    maxHoursInput.addEventListener("input", (e)=>{
+      state.maxHours = Number(e.target.value || 0);
+      updateMaxHoursUI();
+      state.hasSearched = false;
+      render();
+    });
+  }
+
+  outingSelect.addEventListener("change", (e)=>{
+    state.outingKey = e.target.value;
+    const t = outingTemplates.find(x=>x.key===state.outingKey);
+    if(t){ state.startTime = t.defaultStart; $("startTime").value = state.startTime; }
+    state.hasSearched = false;
+    render();
+  });
+
+  $("startTime").addEventListener("input", (e)=>{
+    state.startTime = e.target.value;
+    state.hasSearched = false;
+    render();
+  });
+
+  $("bufferMins").addEventListener("input", (e)=>{
+    state.bufferMins = clamp(Number(e.target.value||0), 0, 30);
+    state.hasSearched = false;
+    render();
+  });
+
+  function setTravelStyle(style){
+    state.travelStyle = style;
+    $("travelComfort").classList.toggle("on", style==="comfortable");
+    $("travelCheap").classList.toggle("on", style==="cheap");
+    state.hasSearched = false;
+    render();
+  }
+  $("travelComfort").addEventListener("click", ()=>setTravelStyle("comfortable"));
+  $("travelCheap").addEventListener("click", ()=>setTravelStyle("cheap"));
+
+  $("showAlts").addEventListener("change", (e)=>{
+    state.showAlts = !!e.target.checked;
+    render();
+  });
+
+  if (discoveryModeSel){
+    discoveryModeSel.addEventListener("change", (e)=>{
+      state.discoveryMode = e.target.value || "balanced";
+      state.hasSearched = false;
+      render();
+    });
+  }
+  if (pureVegChk){
+    pureVegChk.addEventListener("change", (e)=>{
+      state.pureVegOnly = !!e.target.checked;
+      state.hasSearched = false;
+      render();
+    });
+  }
+
+  function setTheme(theme){
+    state.theme = theme;
+    const appEl = $("app");
+    if (appEl) appEl.setAttribute("data-theme", theme);
+    if (document.documentElement) document.documentElement.setAttribute("data-theme", theme);
+    $("themeBtn").textContent = theme === "dark" ? "🌙 Dark" : "☀️ Light";
+  }
+  $("themeBtn").addEventListener("click", ()=> setTheme(state.theme === "dark" ? "light" : "dark"));
+  $("resetBtn").addEventListener("click", ()=>{
+    state.outingKey = "dinner";
+    state.startTime = "20:00";
+    state.bufferMins = 12;
+    state.selectedCuisines = [];
+    state.maxHours = 3;
+    state.travelStyle = "comfortable";
+    state.showAlts = false;
+
+    state.pureVegOnly = false;
+    state.discoveryMode = "balanced";
+
+    state.homeLabel = "";
+    state.homeLocation = null;
+
+    state.searchLabel = "";
+    state.searchLocation = null;
+
+    backendPlaces = [];
+    state.hasSearched = false;
+
+    outingSelect.value = state.outingKey;
+    $("startTime").value = state.startTime;
+    $("bufferMins").value = state.bufferMins;
+
+    const homeAddressInput = $("homeAddress");
+    if(homeAddressInput) homeAddressInput.value = "";
+    const searchAreaInput = $("searchArea");
+    if(searchAreaInput) searchAreaInput.value = "";
+
+    updateHomeLabelDisplay();
+    updateMaxHoursUI();
+
+    if (cuisineSelect){
+      Array.from(cuisineSelect.options).forEach(o => o.selected = false);
+    }
+    $("showAlts").checked = false;
+    if (pureVegChk) pureVegChk.checked = false;
+    if (discoveryModeSel) discoveryModeSel.value = "balanced";
+
+    setTravelStyle(state.travelStyle);
+    if (searchAreaStatusEl) searchAreaStatusEl.textContent = "";
+    render();
+  });
+
+  if (searchBtn){
+    searchBtn.addEventListener("click", async ()=>{
+      state.hasSearched = true;
+      await loadDynamicPlacesForCenter();
+      render();
+    });
+  }
+
+  // ---------- Search area helpers ----------
+  const useHomeAsSearchBtn = document.getElementById("useHomeAsSearch");
+  if (useHomeAsSearchBtn){
+    useHomeAsSearchBtn.addEventListener("click", ()=>{
+      if (!state.homeLocation){
+        if (searchAreaStatusEl) searchAreaStatusEl.textContent = "Set Home first.";
+        return;
+      }
+      state.searchLocation = { ...state.homeLocation };
+      state.searchLabel = state.homeLabel || "Home";
+      const searchAreaInput = $("searchArea");
+      if (searchAreaInput) searchAreaInput.value = state.searchLabel;
+      if (searchAreaStatusEl) searchAreaStatusEl.textContent = "Searching around home.";
+      state.hasSearched = false;
+      render();
+    });
+  }
+
+  // initial
+  render();
+
+  // ---------- Google Maps Places Autocomplete ----------
+  function initHomeAutocomplete(){
+    const homeInput = $("homeAddress");
+    const searchInput = $("searchArea");
+    if(!window.google || !google.maps || !google.maps.places) return;
+
+    // Home autocomplete
+    if (homeInput){
+      const homeAC = new google.maps.places.Autocomplete(homeInput, { types: ["geocode"] });
+      homeAC.addListener("place_changed", ()=>{
+        const p = homeAC.getPlace();
+        const label = (p && p.formatted_address) || homeInput.value || "Home";
+        setHomeLabelFromString(label);
+        if (p?.geometry?.location){
+          const loc = p.geometry.location;
+          state.homeLocation = { lat: loc.lat(), lng: loc.lng() };
+          updateHomeMap();
+          state.hasSearched = false;
+          render();
+        }
+      });
+    }
+
+    // Search area autocomplete (optional)
+    if (searchInput){
+      const searchAC = new google.maps.places.Autocomplete(searchInput, { types: ["geocode"] });
+      searchAC.addListener("place_changed", ()=>{
+        const p = searchAC.getPlace();
+        const label = (p && p.formatted_address) || searchInput.value || "";
+        setSearchLabelFromString(label);
+        if (p?.geometry?.location){
+          const loc = p.geometry.location;
+          state.searchLocation = { lat: loc.lat(), lng: loc.lng() };
+          if (searchAreaStatusEl) searchAreaStatusEl.textContent = "Searching around selected area.";
+          state.hasSearched = false;
+          render();
+        }
+      });
+    }
+
+    updateHomeMap();
+  }
+
+  // Use current location
+  const useCurrentLocationBtn = document.getElementById("useCurrentLocation");
+  const locationStatusEl = document.getElementById("locationStatus");
+
+  if (useCurrentLocationBtn) {
+    useCurrentLocationBtn.addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        if (locationStatusEl) locationStatusEl.textContent = "Geolocation is not supported in this browser.";
+        return;
+      }
+      if (locationStatusEl) locationStatusEl.textContent = "Detecting location...";
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
+          const homeInput = $("homeAddress");
+          const fallbackLabel = `Lat ${latitude.toFixed(4)}, Lng ${longitude.toFixed(4)}`;
+
+          if (window.google && google.maps && google.maps.Geocoder) {
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+              { location: { lat: latitude, lng: longitude } },
+              (results, status) => {
+                let label = fallbackLabel;
+                if (status === "OK" && results && results[0]) {
+                  label = results[0].formatted_address || fallbackLabel;
+                }
+                if (homeInput) homeInput.value = label;
+                setHomeLabelFromString(label);
+                state.homeLocation = { lat: latitude, lng: longitude };
+                updateHomeMap();
+                state.hasSearched = false;
+                render();
+                if (locationStatusEl) locationStatusEl.textContent = "Using your current location.";
+              }
+            );
+          } else {
+            if (homeInput) homeInput.value = fallbackLabel;
+            setHomeLabelFromString(fallbackLabel);
+            state.homeLocation = { lat: latitude, lng: longitude };
+            updateHomeMap();
+            state.hasSearched = false;
+            render();
+            if (locationStatusEl) locationStatusEl.textContent = "Using approximate current location.";
+          }
+        },
+        () => {
+          if (locationStatusEl) locationStatusEl.textContent = "Could not get location (permission denied or unavailable).";
+        }
+      );
+    });
+  }
+
+  // Auth failure handler
+  window.gm_authFailure = function gm_authFailure(){
+    const status = document.getElementById("locationStatus");
+    if (status) status.textContent = "Google Maps couldn’t load. Check API key, billing, and allowed websites.";
+  };
+
+  window.initHomeAutocomplete = initHomeAutocomplete;
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_JS_KEY&libraries=places&callback=initHomeAutocomplete" async defer></script>
+</body>
+</html>
+
+
+
+
+
+<!--
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Food Itinerary Builder</title>
+  <meta name="description" content="Build a ≤3 hour food outing itinerary from any home base with comfortable vs cheap food and cab vs local travel." />
+  <style>
+    :root{
+      --bg0:#07080b; --bg1:#0b0c10;
+      --card:rgba(255,255,255,.06); --card2:rgba(255,255,255,.04);
+      --text:#f5f7ff; --muted:#a8aab4;
+      --border:rgba(255,255,255,.10); --shadow:0 10px 30px rgba(0,0,0,.35);
+      --ring:rgba(255,255,255,.18);
+
+      --goodBg:rgba(31,138,91,.22); --goodBd:rgba(31,138,91,.38);
+      --badBg:rgba(178,58,58,.22); --badBd:rgba(178,58,58,.38);
+
+      --accent:rgba(110,231,183,.20); --accentBd:rgba(110,231,183,.35);
+
+      --chip:rgba(255,255,255,.08); --chipBd:rgba(255,255,255,.12);
+
+      --radius:18px; --radius2:22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    [data-theme="light"]{
+      --bg0:#f6f7fb; --bg1:#ffffff;
+      --card:rgba(0,0,0,.04); --card2:rgba(0,0,0,.03);
+      --text:#0b1220; --muted:#5a6070;
+      --border:rgba(0,0,0,.10); --shadow:0 10px 25px rgba(0,0,0,.10);
+      --ring:rgba(0,0,0,.16);
+      --chip:rgba(0,0,0,.06); --chipBd:rgba(0,0,0,.10);
+      --goodBg:rgba(31,138,91,.16); --goodBd:rgba(31,138,91,.28);
+      --badBg:rgba(178,58,58,.14); --badBd:rgba(178,58,58,.25);
+      --accent:rgba(59,130,246,.10); --accentBd:rgba(59,130,246,.22);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--sans);
+      background:
+        radial-gradient(1100px 680px at 20% -10%, rgba(59,130,246,.22), transparent 60%),
+        radial-gradient(900px 520px at 85% 0%, rgba(110,231,183,.18), transparent 55%),
+        radial-gradient(900px 520px at 50% 120%, rgba(244,114,182,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color:var(--text);
+    }
+
     .wrap{max-width:1120px;margin:0 auto;padding:18px;padding-bottom:28px}
     .top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:10px 0 18px}
     .title h1{margin:0;font-size:26px;letter-spacing:-.4px;line-height:1.12}
@@ -242,7 +1549,7 @@
     </header>
 
     <div class="grid">
-      <!-- Settings -->
+      // Settings 
       <div class="card">
         <div class="cardHead">
           <div>
@@ -348,7 +1655,7 @@
         </div>
       </div>
 
-      <!-- Results -->
+      // -- Results 
       <div class="stack">
         <div id="cardA"></div>
         <div id="cardB"></div>
@@ -1285,13 +2592,13 @@
 <!-- IMPORTANT:
   Replace YOUR_BROWSER_KEY with your *browser* key (HTTP referrer restricted).
   Your server key must remain only in Vercel env var GOOGLE_MAPS_API_KEY.
--->
+--
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhqJPZW22_07H7TKL41hdb9e7mQiYbXgs&libraries=places&callback=initHomeAutocomplete" async defer></script>
 
 </body>
 </html>
 
-
+-->
 
 <!--
 
