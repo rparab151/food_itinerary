@@ -364,21 +364,27 @@
 
   // Fixed cuisine options user can choose from
   const FIXED_CUISINES = [
-    "Indian",
-    "South Indian",
-    "Chinese",
-    "Pizza",
-    "Seafood",
-    "Fast food",
-    "Cafe",
-    "Bakery / Desserts",
-    "Bar / Pub",
-    "Restaurant",
-    "Street food",
-    "Multi-cuisine / Mall",
-    "Vegetarian",
-    "Modern Indian / Global"
-  ];
+     "Indian",
+     "South Indian",
+     "Chinese",
+     "Pizza",
+     "Seafood",
+     "Fast food",
+     "Cafe",
+     "Bakery / Desserts",
+     "Bar / Pub",
+     "Restaurant",
+     "Street food",
+     "Maharashtrian",
+     "Malvani",
+     "Khandeshi",
+     "Kolhapuri",
+     "Varhadi",
+     "Puneri",
+     "Multi-cuisine / Mall",
+     "Vegetarian",
+     "Modern Indian / Global"
+  ];  
 
   // Places returned by backend (dynamic near search center). No static fallback in production mode.
   let backendPlaces = [];
@@ -951,7 +957,19 @@
       rating: r.rating
     };
   }
+  
 
+  // Expand umbrella cuisine tags into query keywords.
+  // If user selects "Maharashtrian", we also search for: Malvani, Khandeshi, Kolhapuri, Varhadi, Puneri.
+  function expandCuisineFilters(selected){
+    const src = Array.isArray(selected) ? selected : [];
+    const out = new Set(src);
+    if (out.has("Maharashtrian")){
+      ["Malvani","Khandeshi","Kolhapuri","Varhadi","Puneri"].forEach(x => out.add(x));
+    }
+    return Array.from(out);
+  }
+  
   async function loadDynamicPlacesForCenter(){
     const center = state.searchLocation || state.homeLocation;
     if (!center || !window.fetch) {
@@ -960,12 +978,14 @@
       return;
     }
     try{
+      const expandedCuisines = expandCuisineFilters(state.selectedCuisines || []);
       const params = new URLSearchParams({
         lat: String(center.lat),
         lng: String(center.lng),
         radiusKm: "5",
         maxResults: "18",
-        cuisines: (state.selectedCuisines || []).join(",")
+      //  cuisines: (state.selectedCuisines || []).join(",")
+        cuisines: expandedCuisines.join(",")
       });
       const resp = await fetch(`${BACKEND_BASE}/places?${params.toString()}`);
       if (!resp.ok){
